@@ -1,4 +1,3 @@
-# src/api/weather_api.py
 import requests
 import pandas as pd
 from datetime import datetime
@@ -7,12 +6,12 @@ from typing import Dict, Optional
 
 class WeatherAPI:
     def __init__(self, api_key: str):
-        """Initialize WeatherAPI with your OpenWeatherMap API key."""
+        """Initializing WeatherAPI with your OpenWeatherMap API key."""
         self.api_key = api_key
         self.base_url = "https://api.openweathermap.org/data/2.5"
         
     def _make_request(self, endpoint: str, params: Dict) -> Optional[Dict]:
-        """Make API request with error handling."""
+        """Make API request for the data with error handling."""
         try:
             url = f"{self.base_url}/{endpoint}"
             params["appid"] = self.api_key
