@@ -5,17 +5,17 @@ import streamlit as st  # For building interactive web apps
 from typing import Dict, Optional  # For type hinting to improve code readability
 
 class WeatherAPI:
-    def __init__(self, api_key: str):
+    def __init__(_self, api_key: str):
         """
         Initialize the WeatherAPI class with an API key from OpenWeatherMap.
 
         Args:
             api_key (str): Your OpenWeatherMap API key.
         """
-        self.api_key = api_key  # Store the API key
-        self.base_url = "https://api.openweathermap.org/data/2.5"  # Base URL for the API endpoints
+        _self.api_key = api_key  # Store the API key
+        _self.base_url = "https://api.openweathermap.org/data/2.5"  # Base URL for the API endpoints
         
-    def _make_request(self, endpoint: str, params: Dict) -> Optional[Dict]:
+    def _make_request(_self, endpoint: str, params: Dict) -> Optional[Dict]:
         """
         Make an API request to the specified endpoint with the given parameters.
         
@@ -28,8 +28,8 @@ class WeatherAPI:
         """
         try:
             # Construct the full URL and add essential parameters
-            url = f"{self.base_url}/{endpoint}"
-            params["appid"] = self.api_key  # Include API key in the parameters
+            url = f"{_self.base_url}/{endpoint}"
+            params["appid"] = _self.api_key  # Include API key in the parameters
             params["units"] = "metric"  # Use metric units (e.g., Celsius)
 
             # Make the API request
@@ -50,7 +50,7 @@ class WeatherAPI:
         return None  # Return None in case of an error
 
     @st.cache_data(ttl=1800)
-    def get_weather_by_coordinates(self, lat: float, lon: float) -> Optional[Dict]:
+    def get_weather_by_coordinates(_self, lat: float, lon: float) -> Optional[Dict]:
         """
         Fetch current weather data for specific coordinates.
 
@@ -62,7 +62,7 @@ class WeatherAPI:
             Optional[Dict]: Parsed weather data or None if the request fails.
         """
         params = {"lat": lat, "lon": lon}  # Define parameters for the API call
-        data = self._make_request("weather", params)  # Make the API call
+        data = _self._make_request("weather", params)  # Make the API call
         
         if data:
             # Parse and return the relevant weather information
@@ -80,7 +80,7 @@ class WeatherAPI:
         return None  # Return None if no data is available
 
     @st.cache_data(ttl=1800)
-    def get_forecast_by_coordinates(self, lat: float, lon: float) -> Optional[pd.DataFrame]:
+    def get_forecast_by_coordinates(_self, lat: float, lon: float) -> Optional[pd.DataFrame]:
         """
         Fetch a 5-day weather forecast for specific coordinates.
 
@@ -92,7 +92,7 @@ class WeatherAPI:
             Optional[pd.DataFrame]: DataFrame with forecast data or None if the request fails.
         """
         params = {"lat": lat, "lon": lon}  # Define parameters for the API call
-        data = self._make_request("forecast", params)  # Make the API call
+        data = _self._make_request("forecast", params)  # Make the API call
         
         if data:
             # Extract and organize the forecast data
@@ -108,7 +108,7 @@ class WeatherAPI:
             return pd.DataFrame(forecast_data)  # Convert to a DataFrame for analysis
         return None  # Return None if no data is available
 
-    def calculate_weather_kpis(self, current_data: Dict, forecast_data: pd.DataFrame) -> Dict:
+    def calculate_weather_kpis(_self, current_data: Dict, forecast_data: pd.DataFrame) -> Dict:
         """
         Calculate Key Performance Indicators (KPIs) from weather data.
 
@@ -132,14 +132,14 @@ class WeatherAPI:
         # Calculate and return the KPIs
         kpis = {
             "current_temp": current_data["temperature"],  # Current temperature
-            "temp_trend": self._calculate_temperature_trend(forecast_data),  # Temperature trend over 5 days
+            "temp_trend": _self._calculate_temperature_trend(forecast_data),  # Temperature trend over 5 days
             "avg_humidity": round(forecast_data["humidity"].mean(), 1),  # Average humidity
             "max_wind_speed": round(forecast_data["wind_speed"].max(), 1),  # Maximum wind speed
-            "weather_stability": self._calculate_weather_stability(forecast_data)  # Weather stability score
+            "weather_stability": _self._calculate_weather_stability(forecast_data)  # Weather stability score
         }
         return kpis
 
-    def _calculate_temperature_trend(self, forecast_data: pd.DataFrame) -> float:
+    def _calculate_temperature_trend(_self, forecast_data: pd.DataFrame) -> float:
         """
         Calculate the temperature trend over the forecast period.
 
@@ -155,7 +155,7 @@ class WeatherAPI:
         last_day = forecast_data.tail(8)["temperature"].mean()  # Average temp for the last day
         return round(last_day - first_day, 1)  # Return the trend
 
-    def _calculate_weather_stability(self, forecast_data: pd.DataFrame) -> float:
+    def _calculate_weather_stability(_self, forecast_data: pd.DataFrame) -> float:
         """
         Calculate a weather stability score based on temperature and humidity variance.
 
